@@ -403,7 +403,10 @@ class DatabaseScheduler(Scheduler):
         ]
 
         # Get current, next, and previous hours
-        current_time = timezone.localtime(now())
+        current_time = timezone.localtime(
+            # timezone.localtime() expects a timezone aware datetime.
+            datetime.datetime.now(datetime.timezone.utc)
+        )
         current_hour = current_time.hour
         next_hour = (current_hour + 1) % 24
         previous_hour = (current_hour - 1) % 24
